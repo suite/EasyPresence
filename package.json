@@ -1,31 +1,16 @@
 {
   "name": "easypresence",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Easily change your discord presence",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/electron/electron-quick-start.git"
-  },
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Matt C.",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^2.0.0"
   },
-  "bugs": {
-    "url": "https://github.com/electron/electron-quick-start/issues"
-  },
-  "homepage": "https://github.com/electron/electron-quick-start#readme",
   "dependencies": {
     "discord-rich-presence": "0.0.6",
     "path": "^0.12.7"
