@@ -1,5 +1,7 @@
 # EasyPresence
 
+![alt text](https://image.prntscr.com/image/l5gRMddsSduy3b6eEyRvAA.png)
+
 **Setup**
 
 Download the repo: `git clone https://github.com/suite/EasyPresence.git` 
