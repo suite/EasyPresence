@@ -1,17 +1,30 @@
 // Modules to control application life and create native browser window
+const electron = require('electron')
 const {app, BrowserWindow} = require('electron')
-
+const path = require('path');
+const config = require(path.join(__dirname, 'config.json'));
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+const client = require('discord-rich-presence')(config.appid);
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 800, height: 630, frame: false})
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  
+  console.log('Set XD')
 
+
+ 
+  client.updatePresence({
+    state: 'Up and running',
+    instance: false
+  })
+
+   
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
@@ -45,6 +58,57 @@ app.on('activate', function () {
     createWindow()
   }
 })
+
+electron.ipcMain.on('updaterp', function(event, data) {
+  console.log(data)
+  console.log(data.state)
+  var newdata = {}
+  for (const key of Object.keys(data)) {
+  
+    if(!data[key] == '') {
+      console.log(key,data[key])
+      newdata[key] = data[key]
+    }
+    // console.log(key, obj[key]);
+  }
+  newdata.instance = false
+  console.log(newdata)
+  client.updatePresence(newdata)
+});
+
+electron.ipcMain.on('secret', function(event) {
+    let int = 0;
+
+    let data = [
+      {
+        details: 'Follow on twitter',
+        state: '@iuqy_',
+        img: 'twit'
+      },
+      {
+        details: 'I like trains',
+        state: 'xD',
+        img: 'xd'
+      },
+      {
+        details: 'Flushed!',
+        state: 'yoikes',
+        img: 'flushed'
+      }
+    ]
+    setInterval(() => {
+      client.updatePresence({
+        state: data[int].state,
+        details: data[int].details,
+        largeImageKey: data[int].img,
+        instance: true,
+      });
+      int++;
+      if(int == 3) int = 0;
+   }, 5000)
+})
+
+ 
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

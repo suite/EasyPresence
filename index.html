@@ -3,17 +3,152 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,800,900" rel="stylesheet">
+    <style>
+    body {
+      background-color: #7289da;
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      padding: 0px;
+      margin: 0px;   
+    }
+    #title-bar {
+      -webkit-app-region: drag;
+      height: 30px; 
+      background-color: #2c2f33;
+      padding: none;
+      margin: 0px; 
+    }
+
+    #title {
+      position: fixed;
+      top: 0px;
+      left: 6px; 
+    }
+
+    #title-bar-btns {
+      -webkit-app-region: no-drag;
+      position: fixed;
+      top: 3.5px;
+      right: 6px;
+
+    }
+    .button {
+    background-color: #99aab5;
+    border: none;
+    color: white;
+    padding: 3px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    /* font-size: 16px; */
+    /* margin: 4px 2px; */
+    cursor: pointer;
+}
+    input[type=text], select {
+        width: 25%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    
+    input[type=submit] {
+      width: 30%;
+      background-color: #2c2f33;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+
+
+
+    
+    </style>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div id="title-bar">
+        <!-- <div id="title">My Life For The Code</div> -->
+        <div id="title-bar-btns">
+              <button id="min-btn" class="button">-</button>
+              <button id="max-btn" class="button">+</button>
+              <button id="close-btn" class="button">x</button>
+        </div>
+    </div>
+
+    <center>
+        <div class="container">
+            <h1>EasyPresence</h1>
+               <!-- All of the Node.js APIs are available in this renderer process. -->
+            Easily switch your rich presence using the app in config.json
+        </div>
+              
+        <br/>
+    
+     
+        
+        <div>
+            <label for="lname">Details:</label>
+            <br/>
+            <input type="text"  name="lastname" placeholder="epic" id="details">
+        </div>
+        <div>
+            <label for="lname">State:</label>
+            <br/>
+            <input type="text" name="lastname" placeholder="slithering" id="state">
+        </div>
+        <div>
+            <label for="lname">Large Image Key:</label>
+            <br/>
+            <input type="text" name="lastname" placeholder="snek_large" id="limage">
+        </div>
+        <div>
+            <label for="lname">Small Image Key:</label>
+            <br/>
+            <input type="text"  name="lastname" placeholder="snek_small" id="simage">
+        </div>
+
+        <input type="submit" value="Save" id="savebtn"> <br/>
+        <input type="submit" value="Secret 🙊" id="secretbtn">
+    </center>
+
+
 
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
+
+      const remote = require('electron').remote
+      const app = remote.app
+      const ipcRenderer = require('electron').ipcRenderer
+
+      function hello() {
+        document.querySelector('#savebtn').value = 'Saved!'
+
+        let data = {
+        
+            state: document.getElementById('state').value,
+            details: document.getElementById('details').value,
+            largeImageKey: document.getElementById('limage').value,
+            smallImageKey: document.getElementById('simage').value
+        }
+        ipcRenderer.send('updaterp', data);
+        setTimeout(() => {
+          document.querySelector('#savebtn').value = 'Save'
+        }, 1500)
+      }
+
+      function bye() {
+        ipcRenderer.send('secret');
+      }
+
+      document.querySelector('#savebtn').addEventListener('click', hello)
+      document.querySelector('#secretbtn').addEventListener('click', bye)
     </script>
   </body>
 </html>
